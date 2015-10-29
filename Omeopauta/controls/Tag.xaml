@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Omeopauta.controls.Tag"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Omeopauta.controls"
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Button Margin="5" Background="#FFA6FA99" Height="18" Width="auto"
+            Padding="5 0">
+        <StackPanel Orientation="Horizontal">
+            <!---->
+            <Label  Content="{Binding Text}"
+                    VerticalAlignment="Center" VerticalContentAlignment="Center"
+                    Padding="0" Margin="0 -1 0 0" FontFamily="Calibri" FontWeight="Bold" FontSize="13.333" />
+            <Image Width="20"  Source="/Omeopauta;component/img/tag.png" 
+                   Stretch="Uniform"/>
+        </StackPanel>
+    </Button>
+    
+</UserControl>

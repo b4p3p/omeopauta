@@ -4,9 +4,80 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omeopauta"
+        xmlns:c="clr-namespace:Omeopauta.controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="Il mio omeopauta" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="Window_Loaded">
+    <Grid Margin="5">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0" Source="img/omeopauta.jpg" 
+                   VerticalAlignment="Top"></Image>
+
+            <Label Grid.Row="1" VerticalAlignment="Top" Content="Tag"/>
+
+            <c:SearchTextBox Grid.Row="2" x:Name="txtSearchBox"  VerticalAlignment="Top" />
+
+            <ScrollViewer Grid.Row="3"  Margin="0 0 0 0">
+                <ItemsControl  ItemsSource="{Binding VisibleTag, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel  FlowDirection="LeftToRight" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Label Grid.Row="4">Numero Tag:</Label>
+        </Grid>
+
+        <ListView x:Name="lstDati" Grid.Column="1" Grid.Row="0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" Orientation="Horizontal"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Margin="5" MouseDown="btnEdit_MouseDown">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Modifica</Label>
+                    <Image Source="img/edit.png"  ></Image>
+                </StackPanel>
+            </Button>
+
+            <Button Margin="5" MouseDown="btnAdd_MouseDown">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Aggiungi</Label>
+                    <Image Source="img/add.png"  ></Image>
+                </StackPanel>
+            </Button>
+            
+        </StackPanel>
+
     </Grid>
 </Window>
