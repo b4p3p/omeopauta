@@ -25,7 +25,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
@@ -36,9 +36,10 @@
 
             <Label Grid.Row="1" VerticalAlignment="Top" Content="Tag"/>
 
-            <c:SearchTextBox Grid.Row="2" x:Name="txtSearchBox"  VerticalAlignment="Top" />
+            <c:SearchTextBox Grid.Row="2" x:Name="txtSearchBox"  VerticalAlignment="Top" 
+                             Margin="5 0 "/>
 
-            <ScrollViewer Grid.Row="3"  Margin="0 0 0 0">
+            <ScrollViewer Grid.Row="3"  Margin="0 5 0 0">
                 <ItemsControl  ItemsSource="{Binding VisibleTag, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 0">
                     <ItemsControl.ItemsPanel>
@@ -63,14 +64,16 @@
 
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" Orientation="Horizontal"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button Margin="5" MouseDown="btnEdit_MouseDown">
+            <Button Margin="5" PreviewMouseDown="btnEdit_MouseDown"
+                    IsEnabled="{Binding FormActive, UpdateSourceTrigger=PropertyChanged}" Height="30">
                 <StackPanel Orientation="Horizontal">
                     <Label>Modifica</Label>
                     <Image Source="img/edit.png"  ></Image>
                 </StackPanel>
             </Button>
 
-            <Button Margin="5" MouseDown="btnAdd_MouseDown">
+            <Button Margin="5" PreviewMouseDown="btnAdd_MouseDown" Height="30"
+                    IsEnabled="{Binding FormActive, UpdateSourceTrigger=PropertyChanged}">
                 <StackPanel Orientation="Horizontal">
                     <Label>Aggiungi</Label>
                     <Image Source="img/add.png"  ></Image>

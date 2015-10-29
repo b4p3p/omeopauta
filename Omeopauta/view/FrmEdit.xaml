@@ -1,0 +1,86 @@
+﻿<Window x:Class="Omeopauta.view.FrmEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Omeopauta.view"
+        mc:Ignorable="d"
+        Title="Edit" Height="500" Width="600"
+        WindowStartupLocation="CenterOwner" >
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.ColumnSpan="2">
+
+        </Grid>
+
+        <Label   Grid.Column="0" Grid.Row="1" FontWeight="Bold">Tags:</Label>
+        <TextBox Grid.Column="1" Grid.Row="1">Pippo</TextBox>
+        <TextBlock  Grid.Column="1" Grid.Row="2" Foreground="#FF008200" 
+                 VerticalAlignment="Top" 
+                 Text="*separare i tag da una virgola&#10;(Es: febbre, pancia, etc)"
+                 TextWrapping="Wrap" FontSize="10.667">
+        </TextBlock>
+        <Label   Grid.Column="0" Grid.Row="3" FontWeight="Bold">Breve descrizione:</Label>
+        <TextBox Grid.Column="1" Grid.Row="3">Pippo</TextBox>
+        <Label   Grid.Column="0" Grid.Row="4" FontWeight="Bold">Descrizione:</Label>
+        <RichTextBox Grid.Column="1" Grid.Row="4" Margin="0">
+            <FlowDocument Language="it-it" LineHeight="5">
+            </FlowDocument>
+        </RichTextBox>
+
+
+        <Grid Grid.Column="1" Grid.Row="5" Height="50" HorizontalAlignment="Right">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Margin="5" PreviewMouseDown="btnUndo_MouseDown"
+                    Grid.Column="0"  Height="30" 
+                    Width="150" Background="#FFFFB0B0">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalContentAlignment="Center" 
+                           HorizontalContentAlignment="Center" 
+                           FontSize="16" Content="Annulla" Width="100" Padding="0"/>
+                    <Image HorizontalAlignment="Right" Source="../img/delete.png"  ></Image>
+                </StackPanel>
+            </Button>
+
+            <Button Margin="5" PreviewMouseDown="btnSave_MouseDown"
+                    Grid.Column="1" Height="30"
+                    Width="150" Background="#FFCDFFC2">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalContentAlignment="Center" Padding="0"
+                           HorizontalContentAlignment="Center" 
+                           FontSize="16" Content="Salva" Width="100"/>
+                    <Image HorizontalAlignment="Right" Source="../img/add.png"  ></Image>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+
+    </Grid>
+</Window>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Omeopauta.controls"
              mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Button Margin="5" Background="#FFA6FA99" Height="18" Width="auto"
+    <Button Margin="5" Background="#FFD8FDD3" Height="18" Width="auto"
             Padding="5 0">
         <StackPanel Orientation="Horizontal">
             <!---->

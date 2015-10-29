@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,23 @@ namespace Omeopauta.controls
     /// <summary>
     /// Logica di interazione per SearchTextBox.xaml
     /// </summary>
-    public partial class SearchTextBox : UserControl
+    public partial class SearchTextBox : UserControl, INotifyPropertyChanged
     {
-        public String SearchText { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private String _searchText = "";
+        public String SearchText {
+            get { return _searchText; }
+            set {
+                _searchText = value;
+                NotifyPropertyChanged("SearchText");
+            }}
+
         public delegate void TextChangeDelegate(string newValue);
         public TextChangeDelegate delegateLateTextChange = null;
 

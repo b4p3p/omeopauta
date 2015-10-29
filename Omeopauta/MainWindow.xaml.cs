@@ -1,5 +1,6 @@
 ﻿using Omeopauta.controller;
 using Omeopauta.controls;
+using Omeopauta.view;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,6 +37,15 @@ namespace Omeopauta
             InitializeComponent();
         }
 
+        private bool _formActive = true;
+        public bool FormActive
+        {
+            get { return _formActive; }
+            set {
+                _formActive = value;
+                NotifyPropertyChanged("FormActive");
+            } }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             VisibleTag = new ObservableCollection<Tag>( DBCtrl.GetTags("") );
@@ -59,7 +69,12 @@ namespace Omeopauta
         }
         private void btnAdd_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            FrmEdit frm = new FrmEdit();
+            frm.Owner = this;
 
+            FormActive = false;
+            frm.ShowDialog();
+            FormActive = true;
         }
     }
 }
