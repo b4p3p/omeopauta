@@ -8,7 +8,15 @@
         mc:Ignorable="d"
         Title="Il mio omeopauta" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="Window_Loaded">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="Window_Loaded"
+        xmlns:conv="clr-namespace:Omeopauta.converters"
+        xmlns:fsc="clr-namespace:FsWpfControls.FsRichTextBox;assembly=FsRichTextBox" >
+
+    <Window.Resources>
+        <conv:ArrayToTagsConverter x:Key="arrayToTagsConverter"/>
+        <fsc:StringFlowDocumentToString x:Key="flowDocumentConverter"/>
+    </Window.Resources>
+    
     <Grid Margin="5">
 
         <Grid.ColumnDefinitions>
@@ -40,7 +48,7 @@
                              Margin="5 0 "/>
 
             <ScrollViewer Grid.Row="3"  Margin="0 5 0 0">
-                <ItemsControl  ItemsSource="{Binding VisibleTag, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                <ItemsControl  ItemsSource="{Binding VisibleTags, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -54,12 +62,89 @@
             <Label Grid.Row="4">Numero Tag:</Label>
         </Grid>
 
-        <ListView x:Name="lstDati" Grid.Column="1" Grid.Row="0">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
+        <!---->
+
+        <ListView x:Name="lstDati" Grid.Column="1" Grid.Row="0" 
+                  ItemsSource="{Binding ListaAppunti}"
+                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                  AlternationCount="2">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    
+                    <Style.Triggers>
+                        <!--back light: FFCCFFC6-->
+                        <!--back dark : FFA9FFAA-->
+                        <!--selected : FF46FA48-->
+
+                        <!--light-->
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                            <Setter Property="Background" Value="#FFCCFFC6" />
+                        </Trigger>
+                        <!--dark-->
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                            <Setter Property="Background" Value="#FFA9FFAA" />
+                        </Trigger>
+                        <!--isselect-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="#FF46FA48" />
+                                <Setter Property="BorderBrush" Value="#FF2EB130" />
+                                <!--<Setter Property="Foreground" Value="White"/>-->
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </Style.Triggers>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border x:Name="ContentBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="4"
+                                    Margin="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="115"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Text="Descrizione breve: " />
+                                        <TextBlock Grid.Column="1" Grid.Row="0"
+                                                   Text="{Binding ShortDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" Text="Tags: " />
+                                        <TextBlock Grid.Column="1" Grid.Row="1" 
+                                                   Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" Text="Testo: " />
+                                        <TextBlock Grid.Column="1" Grid.Row="2" 
+                                                   Text="{Binding Descriptions, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource flowDocumentConverter}}"></TextBlock>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" TargetName="ContentBorder"  Value="#FF46FA48" />
+                                        <Setter Property="BorderBrush" TargetName="ContentBorder"  Value="#FF279728" />
+                                        <Setter Property="BorderThickness" TargetName="ContentBorder"  Value="4" />
+                                        
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+            <!--<ListView.Items>
+                <sys:String>one</sys:String>
+                <sys:String>two</sys:String>
+                <sys:String>three</sys:String>
+            </ListView.Items>-->
         </ListView>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" Orientation="Horizontal"

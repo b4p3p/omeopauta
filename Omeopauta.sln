@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omeopauta", "Omeopauta\Omeopauta.csproj", "{A94C7C4C-B227-4F3A-9D8E-B332B872A89B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FsRichTextBox", "FsRichTextBox\FsRichTextBox.csproj", "{091CE5BC-D5C3-4752-A244-053664873941}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A94C7C4C-B227-4F3A-9D8E-B332B872A89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A94C7C4C-B227-4F3A-9D8E-B332B872A89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A94C7C4C-B227-4F3A-9D8E-B332B872A89B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091CE5BC-D5C3-4752-A244-053664873941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091CE5BC-D5C3-4752-A244-053664873941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091CE5BC-D5C3-4752-A244-053664873941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091CE5BC-D5C3-4752-A244-053664873941}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

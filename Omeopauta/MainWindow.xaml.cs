@@ -1,4 +1,5 @@
-﻿using Omeopauta.controller;
+﻿using Omeopauta.context;
+using Omeopauta.controller;
 using Omeopauta.controls;
 using Omeopauta.view;
 using System;
@@ -26,42 +27,50 @@ namespace Omeopauta
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool _formActive = true;
+        private ObservableCollection<DBAppunto> _listaAppunti;
+
+        private List<Tag> lstTag = new List<Tag>();
+
         public void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public MainWindow()
+        public MainWindow() { InitializeComponent(); }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            VisibleTags = controls.Tag.FromArray(DBCtrl.GetTags(""));
+            NotifyPropertyChanged("VisibleTags");
+
+            ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppunti(""));
+
+            txtSearchBox.delegateLateTextChange = new SearchTextBox.TextChangeDelegate(TextChange);
         }
 
-        private bool _formActive = true;
         public bool FormActive
         {
             get { return _formActive; }
             set {
                 _formActive = value;
                 NotifyPropertyChanged("FormActive");
-            } }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            VisibleTag = new ObservableCollection<Tag>( DBCtrl.GetTags("") );
-            NotifyPropertyChanged("VisibleTag");
-
-            txtSearchBox.delegateLateTextChange = new SearchTextBox.TextChangeDelegate(TextChange);
+            }
         }
 
-        private List<Tag> lstTag = new List<Tag>();
+        public ObservableCollection<Tag> VisibleTags { get; set; }
 
-        public ObservableCollection<Tag> VisibleTag { get; set; }
+        public ObservableCollection<DBAppunto> ListaAppunti {
+            get { return _listaAppunti; }
+            set { _listaAppunti = value; NotifyPropertyChanged("ListaAppunti"); }
+        }
 
         private void TextChange(string newValue)
         {
-            VisibleTag = new ObservableCollection<Tag>(DBCtrl.GetTags(newValue));
-            NotifyPropertyChanged("VisibleTag");
+            VisibleTags = controls.Tag.FromArray(DBCtrl.GetTags(newValue));
+            NotifyPropertyChanged("VisibleTags");
         }
         private void btnEdit_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -69,12 +78,14 @@ namespace Omeopauta
         }
         private void btnAdd_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            FrmEdit frm = new FrmEdit();
+            FrmEdit frm = new FrmEdit(false);
             frm.Owner = this;
 
             FormActive = false;
             frm.ShowDialog();
             FormActive = true;
+
+            ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppunti(""));
         }
     }
 }

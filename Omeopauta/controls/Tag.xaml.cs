@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,14 @@ namespace Omeopauta.controls
     public partial class Tag : UserControl
     {
         public static readonly DependencyProperty text = DependencyProperty.Register("Text", typeof(string), typeof(UserControl));
+
+        public static ObservableCollection<Tag> FromArray(string[] tags)
+        {
+            Tag[] res = new Tag[tags.Length];
+            for (int i = 0; i < tags.Length; i++)
+                res[i] = new Tag(tags[i]);
+            return new ObservableCollection<Tag>(res);
+        }
 
         public Tag()
         {
