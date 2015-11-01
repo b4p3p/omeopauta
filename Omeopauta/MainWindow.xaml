@@ -6,17 +6,20 @@
         xmlns:local="clr-namespace:Omeopauta"
         xmlns:c="clr-namespace:Omeopauta.controls"
         mc:Ignorable="d"
-        Title="Il mio omeopauta" Height="600" Width="800"
+        Title="Il mio naturopata" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="Window_Loaded"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" 
+        Loaded="Window_Loaded"
         xmlns:conv="clr-namespace:Omeopauta.converters"
         xmlns:fsc="clr-namespace:FsWpfControls.FsRichTextBox;assembly=FsRichTextBox" >
 
     <Window.Resources>
         <conv:ArrayToTagsConverter x:Key="arrayToTagsConverter"/>
+        <conv:AddValueConverter x:Key="addValueConverter"/>
+        <conv:SizeToBoolCondiction x:Key="sizeToBoolConverter"/>
         <fsc:StringFlowDocumentToString x:Key="flowDocumentConverter"/>
     </Window.Resources>
-    
+
     <Grid Margin="5">
 
         <Grid.ColumnDefinitions>
@@ -26,7 +29,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
@@ -62,109 +65,144 @@
             <Label Grid.Row="4">Numero Tag:</Label>
         </Grid>
 
-        <!---->
+        <!--ItemsSource="{Binding ListaAppunti}"-->
 
         <ListView x:Name="lstDati" Grid.Column="1" Grid.Row="0" 
-                  ItemsSource="{Binding ListaAppunti}"
                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                  AlternationCount="2">
+                  AlternationCount="2"
+                  ItemsSource="{Binding ListaAppunti}" 
+                  SelectionChanged="lstDati_SelectionChanged"
+                  PreviewMouseDoubleClick="lstDati_PreviewMouseDoubleClick">
+            <!---->
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
-                    
-                    <Style.Triggers>
-                        <!--back light: FFCCFFC6-->
-                        <!--back dark : FFA9FFAA-->
-                        <!--selected : FF46FA48-->
 
-                        <!--light-->
-                        <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
-                            <Setter Property="Background" Value="#FFCCFFC6" />
-                        </Trigger>
-                        <!--dark-->
-                        <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
-                            <Setter Property="Background" Value="#FFA9FFAA" />
-                        </Trigger>
-                        <!--isselect-->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter Property="Background" Value="#FF46FA48" />
-                                <Setter Property="BorderBrush" Value="#FF2EB130" />
-                                <!--<Setter Property="Foreground" Value="White"/>-->
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                    </Style.Triggers>
+                    <!--<EventSetter Event="MouseDoubleClick" 
+                                 Handler="lstDati_PreviewMouseDoubleClick"/>-->
 
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border x:Name="ContentBorder"
+            <Style.Triggers>
+                <!--back light: FFCCFFC6-->
+                <!--back dark : FFA9FFAA-->
+                <!--selected : FF46FA48-->
+                <!--light-->
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                    <Setter Property="Background" Value="#FFCCFFC6" />
+                </Trigger>
+                <!--dark-->
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                    <Setter Property="Background" Value="#FFA9FFAA" />
+                </Trigger>
+                <!--isselect-->
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background" Value="#FF46FA48" />
+                        <Setter Property="BorderBrush" Value="#FF2EB130" />
+                        <!--<Setter Property="Foreground" Value="White"/>-->
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+
+            <!--BorderThickness="{TemplateBinding BorderThickness}"-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="ContentBorder"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="4"
-                                    Margin="2">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="115"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Text="Descrizione breve: " />
-                                        <TextBlock Grid.Column="1" Grid.Row="0"
-                                                   Text="{Binding ShortDescription, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" Text="Tags: " />
-                                        <TextBlock Grid.Column="1" Grid.Row="1" 
-                                                   Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" Text="Testo: " />
-                                        <TextBlock Grid.Column="1" Grid.Row="2" 
-                                                   Text="{Binding Descriptions, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource flowDocumentConverter}}"></TextBlock>
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" TargetName="ContentBorder"  Value="#FF46FA48" />
-                                        <Setter Property="BorderBrush" TargetName="ContentBorder"  Value="#FF279728" />
-                                        <Setter Property="BorderThickness" TargetName="ContentBorder"  Value="4" />
-                                        
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
+                                    
+                                    BorderThickness="3"
+                                    Padding="2" 
+                                    MaxWidth="{Binding ElementName=lstDati, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged,
+                                               Converter={StaticResource addValueConverter}, ConverterParameter=-10}"
+                                    Margin="1" >
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="115"></ColumnDefinition>
+                                    <ColumnDefinition Name="colValue" Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <!--Descizione breve-->
+                                <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Text="Descrizione breve: " />
+                                <TextBlock Grid.Column="1" Grid.Row="0" 
+                                                   TextWrapping="Wrap" MaxHeight="35" TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding ShortDescription}"/>
+                                <!--Text="{Binding ShortDescription, UpdateSourceTrigger=PropertyChanged}"-->
+                                <!--Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged}"-->
+                                <!--Tags-->
+                                <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" Text="Tags: " />
+                                <TextBlock Grid.Column="1" Grid.Row="1" 
+                                                   Text="{Binding ListTags, UpdateSourceTrigger=PropertyChanged, 
+                                                          Converter={StaticResource arrayToTagsConverter}}"/>
+                                <!--Descrizione-->
+                                <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" Text="Testo: " />
+                                <TextBlock Grid.Column="1" Grid.Row="2" 
+                                                   TextWrapping="Wrap" MaxHeight="35" TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource flowDocumentConverter}}"></TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" TargetName="ContentBorder"  Value="#FF46FA48" />
+                                <Setter Property="BorderBrush" TargetName="ContentBorder"  Value="#FF279728" />
+                                <!--<Setter Property="BorderThickness" TargetName="ContentBorder"  Value="4" />-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            </Style>
+
+            <!--<Style x:Key="itemstyle" TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="lstDati_PreviewMouseDoubleClick" />
+                </Style>-->
+
             </ListView.Resources>
-            <!--<ListView.Items>
-                <sys:String>one</sys:String>
-                <sys:String>two</sys:String>
-                <sys:String>three</sys:String>
-            </ListView.Items>-->
+
         </ListView>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" Orientation="Horizontal"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button Margin="5" PreviewMouseDown="btnEdit_MouseDown"
-                    IsEnabled="{Binding FormActive, UpdateSourceTrigger=PropertyChanged}" Height="30">
-                <StackPanel Orientation="Horizontal">
-                    <Label>Modifica</Label>
-                    <Image Source="img/edit.png"  ></Image>
-                </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,0,5,5" Orientation="Horizontal"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="80">
+
+            <StackPanel.Resources>
+                <!-- flat button -->
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                </Style>
+                <!-- opacity -->
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsEnabled}" Value="False">
+                            <Setter  Property="Opacity" Value="0.2"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Margin="5" PreviewMouseDown="btnDelete_MouseDown" Name="btnDelete" Height="60"
+                    IsEnabled="{Binding CountSelected, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sizeToBoolConverter}, ConverterParameter=>0}"
+                    Background="Transparent">
+                <Image Source="img/delete.png" ></Image>
             </Button>
 
-            <Button Margin="5" PreviewMouseDown="btnAdd_MouseDown" Height="30"
-                    IsEnabled="{Binding FormActive, UpdateSourceTrigger=PropertyChanged}">
-                <StackPanel Orientation="Horizontal">
-                    <Label>Aggiungi</Label>
-                    <Image Source="img/add.png"  ></Image>
-                </StackPanel>
+            <Button Margin="5" PreviewMouseDown="btnEdit_MouseDown" Name="btnEdit" Height="60">
+                <Image Source="img/edit.png"  ></Image>
             </Button>
-            
+
+            <Button Margin="5" PreviewMouseDown="btnAdd_MouseDown" Height="60"
+                    Name="btnAdd">
+                <Image Source="img/add.png"></Image>
+            </Button>
+
         </StackPanel>
 
     </Grid>

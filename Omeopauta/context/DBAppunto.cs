@@ -16,7 +16,7 @@ namespace Omeopauta.context
         public DBAppunto(string descriptions, string shortDescription)
         {
             this.ShortDescription = shortDescription;
-            this.Descriptions = descriptions;
+            this.Description = descriptions;
         }
 
         [Key]
@@ -25,8 +25,25 @@ namespace Omeopauta.context
 
         public string ShortDescription{ get; set; }
 
-        public string Descriptions { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<DBAppuntiTag> Tags { get; set; }
+
+        public virtual ICollection<DBImage> Images { get; set; }
+
+        [NotMapped]
+        public string[] ListTags { get; set; }
+        
+        [NotMapped]
+        public string SimpleText { get; set; }
+
+        internal IEnumerable<DBImage> GetImages()
+        {
+            using (OmeopautaContext db = new OmeopautaContext())
+            {
+                db.Appunti.Attach(this);
+                return this.Images;
+            }
+        }
     }
 }

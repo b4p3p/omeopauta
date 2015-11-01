@@ -14,5 +14,7 @@ namespace Omeopauta.context
 
         [Key]
         public string Tag { get; set; }
+
+        public int ContUsed { get; set; }
     }
 }

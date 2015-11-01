@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FsWpfControls.FsRichTextBox
 {
@@ -365,7 +368,9 @@ namespace FsWpfControls.FsRichTextBox
             {
                 BoldButton.IsChecked = textRange.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold);
                 ItalicButton.IsChecked = textRange.GetPropertyValue(TextElement.FontStyleProperty).Equals(FontStyles.Italic);
-                UnderlineButton.IsChecked = textRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline);
+                var prop = textRange.GetPropertyValue(Inline.TextDecorationsProperty);
+                if( prop!= null)
+                    UnderlineButton.IsChecked = textRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline);
             }
 
             // Set Alignment buttons
@@ -376,5 +381,33 @@ namespace FsWpfControls.FsRichTextBox
         }
 
         #endregion
+
+        private void btnAddImage_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OpenFileDialog fDialog = new OpenFileDialog();
+            fDialog.CheckFileExists = true;
+            fDialog.CheckPathExists = true;
+            fDialog.RestoreDirectory = true;
+            fDialog.Title = "Scegli immagine";
+            if (fDialog.ShowDialog() == true)
+            {
+                FileStream fs = File.Open(fDialog.FileName, FileMode.Open);
+                System.Drawing.Bitmap dImg = new System.Drawing.Bitmap(fs);
+                MemoryStream ms = new MemoryStream();
+                dImg.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                System.Windows.Media.Imaging.BitmapImage bImg = new System.Windows.Media.Imaging.BitmapImage();
+                bImg.BeginInit();
+                bImg.StreamSource = new MemoryStream(ms.ToArray());
+                bImg.EndInit();
+
+                //string fname = fDialog.FileName;
+                //System.Drawing.Image img = System.Drawing.Image.FromFile(fname);
+                var orgdata = Clipboard.GetDataObject();
+
+                Clipboard.SetImage(bImg);
+                TextBox.Paste();
+                Clipboard.SetDataObject(orgdata);
+            }
+        }
     }
 }

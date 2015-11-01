@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omeopauta.view"
         xmlns:conv="clr-namespace:Omeopauta.converters"
+        xmlns:ctrl="clr-namespace:Omeopauta.controls"
         xmlns:fsc="clr-namespace:FsWpfControls.FsRichTextBox;assembly=FsRichTextBox" 
         mc:Ignorable="d"
-        Title="Edit" Height="500" Width="600"
+        Title="Edit" Height="600" Width="800"
         WindowStartupLocation="CenterOwner" >
 
     <Window.Resources>
@@ -32,6 +33,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
@@ -39,21 +41,14 @@
         <Grid Grid.ColumnSpan="2" Margin="0,0,0,20">
 
             <Grid>
-                <Rectangle RadiusY="20" RadiusX="20" Stroke="#FF3B26FC" >
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                            <GradientStop Color="#FFBDBDBD" Offset="1"/>
-                            <GradientStop Color="#FFD0F6D3"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                
+                <Rectangle RadiusY="4.033" RadiusX="4.033" Stroke="#FF3B26FC" Fill="#FFFFDBDB" />
+
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Name="lblHeader" VerticalContentAlignment="Center" FontSize="21.333" FontWeight="Bold" FontFamily="Calibri"/>
                     <Image Width="50" Source="/Omeopauta;component/img/note.png"></Image>
                 </StackPanel>
 
-                
+
 
             </Grid>
 
@@ -61,7 +56,7 @@
 
         <Label   Grid.Column="0" Grid.Row="1" FontWeight="Bold">Tags:</Label>
         <TextBox Grid.Column="1" Grid.Row="1"
-                 Text="{Binding Tags, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, 
+                 Text="{Binding ListTags, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, 
             Converter={StaticResource arrayToTagsConverter}}"></TextBox>
         <TextBlock  Grid.Column="1" Grid.Row="2" Foreground="#FF008200" 
                  VerticalAlignment="Top" 
@@ -70,25 +65,36 @@
         </TextBlock>
         <Label   Grid.Column="0" Grid.Row="3" FontWeight="Bold">Breve descrizione:</Label>
         <TextBox Grid.Column="1" Grid.Row="3"
-                 Text="{Binding ShortDescrizione, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding ShortDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-
-        <Label   Grid.Column="0" Grid.Row="4" FontWeight="Bold"
+        <StackPanel Grid.Column="0" Grid.Row="4">
+            <Label  FontWeight="Bold">Galleria:</Label>
+            <Button Name="btnAddImg" PreviewMouseDown="btnAddImg_PreviewMouseDown" Margin="5 5 10 5">Aggiungi</Button>
+            <Button Name="btnDelImg" PreviewMouseDown="btnDelImg_PreviewMouseDown" Margin="5 5 10 5">Elimina</Button>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Column="1" Grid.Row="4" VerticalScrollBarVisibility="Disabled" 
+                      HorizontalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Name="gallery">
+            </StackPanel>
+        </ScrollViewer>
+        
+        
+        <Label   Grid.Column="0" Grid.Row="5" FontWeight="Bold"
                  HorizontalContentAlignment="Left"
                  HorizontalAlignment="Left" Margin="0,20,0,0">Descrizione:</Label>
-
         <fsc:FsRichTextBox x:Name="EditBox" 
-                           Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"
-                           Document="{Binding Path=FlowDescrizione, 
-                                        Converter={StaticResource flowDocumentConverter}, 
-                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
+                           Document="{Binding Path=Description, 
+                                      Converter={StaticResource flowDocumentConverter}, 
+                                      Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                            ToolbarBackground="#FFD2CB84" 
                            ToolbarBorderBrush="#FFC6BE75" ToolbarBorderThickness="1,1,1,0" 
                            CodeControlsVisibility="Collapsed" >
         </fsc:FsRichTextBox>
 
 
-        <Grid Grid.Column="1" Grid.Row="6" 
+        <Grid Grid.Column="1" Grid.Row="7" 
               Height="50" HorizontalAlignment="Right">
 
             <Grid.ColumnDefinitions>

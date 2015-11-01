@@ -34,17 +34,11 @@ namespace FsWpfControls.FsRichTextBox
         /// </summary>
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            /* This converter does not insert returns or indentation into the XAML. If you need to 
-             * indent the XAML in a text box, see http://www.knowdotnet.com/articles/indentxml.html */
-
-            // Exit if FlowDocument is null
             if (value == null) return string.Empty;
-
-            // Get flow document from value passed in
-            var flowDocument = (FlowDocument)value;
-
-            // Convert to XAML and return
-            return XamlWriter.Save(flowDocument);
+            FlowDocument flowDocument = (FlowDocument)XamlReader.Parse((string)value);
+            string text = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd).Text;
+            text = text.Replace("\r\n", " ");
+            return text;
         }
 
         #endregion

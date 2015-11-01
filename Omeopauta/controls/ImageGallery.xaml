@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Omeopauta.controls.ImageGallery"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Omeopauta.controls"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+   
+    <!--BorderBrush="#FFA9DDA1"-->
+
+    <Border Width="100" Height="100" BorderThickness="3" CornerRadius="10" 
+            Name="border" 
+            BorderBrush="{Binding MyBorderBrush, UpdateSourceTrigger=PropertyChanged}"
+            PreviewMouseDown="border_PreviewMouseDown"
+            Background="AliceBlue" Margin="5" Padding="5">
+
+        <Image Name="image" Source="{Binding Path, UpdateSourceTrigger=PropertyChanged}" ></Image>    
+        
+    </Border>
+</UserControl>
+
+<!-- #FFA9DDA1 -->
+    

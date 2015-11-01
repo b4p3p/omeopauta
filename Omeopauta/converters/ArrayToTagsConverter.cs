@@ -15,6 +15,7 @@ namespace Omeopauta.converters
         /// </summary>
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            if (value == null) return String.Empty;
             string[] arrString = (string[])value;
             return string.Join(", ", arrString);
         }
@@ -24,6 +25,7 @@ namespace Omeopauta.converters
         /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (string.IsNullOrWhiteSpace((string)value)) return new string[0];
             string[] res = ((string)value).Split(',');
             return (from string s in res
                     select s.Trim().ToUpper()).ToArray<string>();

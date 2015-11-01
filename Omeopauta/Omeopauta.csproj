@@ -84,13 +84,23 @@
     </ApplicationDefinition>
     <Compile Include="context\DBAppuntiTag.cs" />
     <Compile Include="context\DBAppunto.cs" />
+    <Compile Include="context\DBImages.cs" />
     <Compile Include="context\DBTag.cs" />
     <Compile Include="context\OmeopautaContext.cs" />
+    <Compile Include="controls\ImageGallery.xaml.cs">
+      <DependentUpon>ImageGallery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="converters\SizeToBoolCondiction.cs" />
+    <Compile Include="converters\AddValueConverter.cs" />
     <Compile Include="converters\ArrayToTagsConverter.cs" />
     <Compile Include="model\AppuntoModel.cs" />
     <Compile Include="view\FrmEdit.xaml.cs">
       <DependentUpon>FrmEdit.xaml</DependentUpon>
     </Compile>
+    <Page Include="controls\ImageGallery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="controls\SearchTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

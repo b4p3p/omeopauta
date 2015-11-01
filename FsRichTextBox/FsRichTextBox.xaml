@@ -165,12 +165,17 @@
                 <Image Source="Images\indentincrease.png" Stretch="None" SnapsToDevicePixels="True" />
             </Button>
 
-            <Button Command="EditingCommands.DecreaseIndentation" CommandTarget="{Binding ElementName=TextBox}" ToolTip="Decrease Indentation" Template="{StaticResource FlatButtonControlTemplate}"  Margin="0,1,0,1">
-                <Image Source="Images\indentdecrease.png" Stretch="None" SnapsToDevicePixels="True" />
-            </Button>
-
-        </StackPanel>
+                <Button Command="EditingCommands.DecreaseIndentation" 
+                    CommandTarget="{Binding ElementName=TextBox}" 
+                    ToolTip="Decrease Indentation" Template="{StaticResource FlatButtonControlTemplate}"  Margin="0,1,0,1">
+                    <Image Source="Images\indentdecrease.png" Stretch="None" SnapsToDevicePixels="True" />
+                </Button>
+            </StackPanel>
         </Border>
-        <RichTextBox x:Name="TextBox" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Aliased" AcceptsTab="True" AcceptsReturn="True" IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" TextChanged="OnTextChanged" VerticalScrollBarVisibility="Auto" SelectionChanged="OnTextBoxSelectionChanged" />
+        <RichTextBox x:Name="TextBox" 
+                     TextOptions.TextFormattingMode="Ideal" 
+                     TextOptions.TextRenderingMode="Aliased" AcceptsTab="True"
+                     AcceptsReturn="True" 
+                     IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" TextChanged="OnTextChanged" VerticalScrollBarVisibility="Auto" SelectionChanged="OnTextBoxSelectionChanged" />
     </DockPanel>
 </UserControl>
