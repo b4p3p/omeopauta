@@ -1,0 +1,56 @@
+﻿<Window x:Class="Omeopauta.view.FrmShowImage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Omeopauta.view"
+        mc:Ignorable="d"
+        Title="FrmShowImage" Height="600" Width="800"
+        Icon="../img/naturopata.png"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Descrizione immagine">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Nome: " FontWeight="Bold"></Label>
+                <Label Grid.Row="0" Grid.Column="1" Content="{Binding Nome, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Posizione: " FontWeight="Bold"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Content="{Binding Posizione, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource ResourceKey=flatButton}"
+                        PreviewMouseDown="btnFolder_PreviewMouseDown">
+                    <Image Source="/Omeopauta;component/img/windows-folder.png" >
+                        
+                    </Image>
+                </Button>
+
+                <Button Grid.RowSpan="2" Grid.Column="3" Style="{StaticResource ResourceKey=flatButton}"
+                        PreviewMouseDown="btnImage_PreviewMouseDown">
+                    <Image Source="/Omeopauta;component/img/image.png" >
+
+                    </Image>
+                </Button>
+            </Grid>
+        </GroupBox>
+        <Image Grid.Row="1" Source="{Binding Posizione, UpdateSourceTrigger=PropertyChanged}"/>
+
+    </Grid>
+
+</Window>

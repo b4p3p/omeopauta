@@ -9,7 +9,8 @@
         xmlns:fsc="clr-namespace:FsWpfControls.FsRichTextBox;assembly=FsRichTextBox" 
         mc:Ignorable="d"
         Title="Edit" Height="600" Width="800"
-        WindowStartupLocation="CenterOwner" >
+        WindowStartupLocation="CenterOwner" 
+        Icon="../img/naturopata.png">
 
     <Window.Resources>
         <Style TargetType="TextBox">

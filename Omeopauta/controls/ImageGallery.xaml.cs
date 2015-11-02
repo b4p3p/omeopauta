@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Omeopauta.context;
 using System.IO;
+using Omeopauta.view;
 
 namespace Omeopauta.controls
 {
@@ -96,10 +97,15 @@ namespace Omeopauta.controls
 
         private void border_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
-                MessageBox.Show("Double Click");
-            
             IsSelected = !IsSelected;
+            if (e.ClickCount == 2)
+            {
+                FrmShowImage frm = new FrmShowImage(this.DBImg.AbsPath, this.DBImg.Name);
+                frm.Show();
+                frm.Focus();
+            }
+
+            e.Handled = true;      //fermo la propagazione
         }
         
         internal void DeleteImage()
@@ -116,7 +122,7 @@ namespace Omeopauta.controls
                         Console.WriteLine("File: " + path + " deleted");
                         break;
                     }
-                    catch(Exception e) {
+                    catch(Exception) {
                         Console.WriteLine("Wait for " + path);
                     }
                 }

@@ -21,13 +21,16 @@ namespace Omeopauta.controls
     /// </summary>
     public partial class Tag : UserControl
     {
+        public delegate void TagSelectedDelegate(string selected);
+        private TagSelectedDelegate callbackSelected = null
+            ;
         public static readonly DependencyProperty text = DependencyProperty.Register("Text", typeof(string), typeof(UserControl));
 
-        public static ObservableCollection<Tag> FromArray(string[] tags)
+        public static ObservableCollection<Tag> FromArray(string[] tags, TagSelectedDelegate callback)
         {
             Tag[] res = new Tag[tags.Length];
             for (int i = 0; i < tags.Length; i++)
-                res[i] = new Tag(tags[i]);
+                res[i] = new Tag(tags[i], callback);
             return new ObservableCollection<Tag>(res);
         }
 
@@ -36,9 +39,10 @@ namespace Omeopauta.controls
             InitializeComponent();
         }
 
-        public Tag(string text)
+        public Tag(string text, TagSelectedDelegate callback)
         {
             this.Text = text;
+            this.callbackSelected = callback;
             InitializeComponent();
         }
 
@@ -46,6 +50,11 @@ namespace Omeopauta.controls
         {
             get { return this.GetValue(text).ToString().ToUpper(); }
             set{ this.SetValue(text, value.ToUpper()); }
+        }
+
+        private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            callbackSelected(Text);
         }
     }
 }

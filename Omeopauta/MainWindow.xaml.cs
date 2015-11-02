@@ -46,15 +46,66 @@ namespace Omeopauta
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshData();   
-            txtSearchBox.delegateLateTextChange = new SearchTextBox.TextChangeDelegate(TextChange);
+            txtSearchBox.delegateLateTextChange = new SearchTextBox.TextChangeDelegate(txtTag_Change);
+            txtSearchBoxAppunti.delegateLateTextChange = new SearchTextBox.TextChangeDelegate(txtAppunti_Change);
             SetEnableButtons();
         }
 
+        #region Counter
+
+        public int CountAllTags { get; set; }
+        public int CountFilterTags { get; set; }
+        public int CountAllAppunti {get; set;}
+        public int CountFilterAppunti {
+            get { return _countFilterAppunti; }
+            set {
+                _countFilterAppunti = value;
+                NotifyPropertyChanged("CountFilterAppunti");
+            }}
+        private int _countFilterAppunti = 0;
+        public int CountSelected
+        {
+            get
+            {
+                return SelectedAppunti.Count;
+            }
+        }
+
+        #endregion Counter
+
+        public string SelectedFilterTag {
+            get {
+                return _selectedFilterTag;
+            }
+            set {
+                _selectedFilterTag = value;
+                NotifyPropertyChanged("SelectedFilterTag");
+            }
+        }
+        private string _selectedFilterTag = "";
+
         private void RefreshData()
         {
-            VisibleTags = controls.Tag.FromArray(DBCtrl.GetTags(""));
-            NotifyPropertyChanged("VisibleTags");
+            CountAllTags = RefreshTag("");
+            CountFilterTags = CountAllTags;
+            NotifyPropertyChanged("CountAllTags");
+            NotifyPropertyChanged("CountFilterTags");
+
             ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppunti(""));
+            CountAllAppunti = ListaAppunti.Count;
+            CountFilterAppunti = CountAllAppunti;
+            NotifyPropertyChanged("CountAllAppunti");
+
+            SelectedFilterTag = "";
+        }
+
+        private int RefreshTag(string query)
+        {
+            VisibleTags = controls.Tag.FromArray(
+                DBCtrl.GetTags(query),
+                new Tag.TagSelectedDelegate(tag_Click));
+            NotifyPropertyChanged("VisibleTags");
+            return VisibleTags.Count;
         }
 
         /// <summary>
@@ -91,15 +142,7 @@ namespace Omeopauta
             }
         }
 
-        public int CountSelected { get {
-                return SelectedAppunti.Count;
-        } }
-
-        private void TextChange(string newValue)
-        {
-            VisibleTags = controls.Tag.FromArray(DBCtrl.GetTags(newValue));
-            NotifyPropertyChanged("VisibleTags");
-        }
+        #region Events
 
         private void btnDelete_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -116,6 +159,7 @@ namespace Omeopauta
             if (SelectedAppunti.Count > 0)
                 openEdit(SelectedAppunti[0]);
         }
+
         private void btnAdd_MouseDown(object sender, MouseButtonEventArgs e)
         {
             openEdit(null);
@@ -142,6 +186,35 @@ namespace Omeopauta
             openEdit(item);
         }
 
+        private void tag_Click(string tag)
+        {
+            SelectedFilterTag = tag;
+            ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppuntiByTag(SelectedFilterTag));
+            CountFilterAppunti = ListaAppunti.Count;
+        }
+
+        private void txtTag_Change(string newValue)
+        {
+            CountFilterTags = RefreshTag(newValue);
+            NotifyPropertyChanged("CountFilterTags");
+        }
+
+        private void txtAppunti_Change(string filter)
+        {
+            ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppunti(filter));
+            CountFilterAppunti = ListaAppunti.Count;
+            SelectedFilterTag = "";
+        }
+
+        private void btnClearFilterTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SelectedFilterTag = "";
+            ListaAppunti = new ObservableCollection<DBAppunto>(DBCtrl.GetAppunti(""));
+            CountFilterAppunti = ListaAppunti.Count;
+        }
+
+        #endregion Events
+
         private void openEdit(DBAppunto selected)
         {
             if (SelectedAppunti.Count != 1 && selected != null) return;
@@ -155,5 +228,7 @@ namespace Omeopauta
 
             RefreshData();
         }
+
+        
     }
 }

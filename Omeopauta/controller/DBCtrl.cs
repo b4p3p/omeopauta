@@ -31,6 +31,7 @@ namespace Omeopauta.controller
                 using (OmeopautaContext db = new OmeopautaContext())
                 {
                     var tags = from DBTag t in db.Tags
+                               where t.Tag.Contains(query)
                                select t.Tag;
                     return tags.ToArray();
                 }
@@ -52,12 +53,34 @@ namespace Omeopauta.controller
                     ? (from DBAppunto a in db.Appunti
                        select a).ToArray()
                     : (from DBAppunto a in db.Appunti
+                       where a.SimpleText.Contains(q) ||
+                             a.ShortDescription.Contains(q)
                        select a).ToArray();
 
-                //carica la lista dei tag
+                //carica la lista dei tag (da usare con db offline)
                 foreach (DBAppunto item in appunti)
                     item.ListTags = GetTags(db, item);
+
                 return appunti.ToArray<DBAppunto>();
+            }
+        }
+
+        internal static IEnumerable<DBAppunto> GetAppuntiByTag(string tag)
+        {
+            using (OmeopautaContext db = new OmeopautaContext())
+            {
+                DBTag dbTag = db.Tags.FirstOrDefault<DBTag>(t => t.Tag == tag);
+                var apps = from DBAppuntiTag appTag in db.AppuntiTag
+                           where appTag.Tag.Tag == tag
+                           select appTag;
+                var ris = from DBAppuntiTag app in apps
+                          select app.Appunto;
+
+                //carica la lista dei tag (da usare con db offline)
+                foreach (DBAppunto item in ris)
+                    item.ListTags = GetTags(db, item);
+
+                return ris.ToArray<DBAppunto>();
             }
         }
 
@@ -171,6 +194,8 @@ namespace Omeopauta.controller
                 }
             }
         }
+
+        
 
         internal static void DeleteImages(ImageGallery[] images)
         {

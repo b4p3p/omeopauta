@@ -90,12 +90,17 @@
     <Compile Include="controls\ImageGallery.xaml.cs">
       <DependentUpon>ImageGallery.xaml</DependentUpon>
     </Compile>
+    <Compile Include="converters\SimpleTextConverter.cs" />
+    <Compile Include="converters\EmptyToPlaceholderConverter.cs" />
     <Compile Include="converters\SizeToBoolCondiction.cs" />
     <Compile Include="converters\AddValueConverter.cs" />
     <Compile Include="converters\ArrayToTagsConverter.cs" />
     <Compile Include="model\AppuntoModel.cs" />
     <Compile Include="view\FrmEdit.xaml.cs">
       <DependentUpon>FrmEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\FrmShowImage.xaml.cs">
+      <DependentUpon>FrmShowImage.xaml</DependentUpon>
     </Compile>
     <Page Include="controls\ImageGallery.xaml">
       <SubType>Designer</SubType>
@@ -133,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="view\FrmEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\FrmShowImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -192,6 +201,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\note.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\add-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\naturopatia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\naturopata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\windows-folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

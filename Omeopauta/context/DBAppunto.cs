@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Omeopauta.context
 {
@@ -34,7 +35,6 @@ namespace Omeopauta.context
         [NotMapped]
         public string[] ListTags { get; set; }
         
-        [NotMapped]
         public string SimpleText { get; set; }
 
         internal IEnumerable<DBImage> GetImages()

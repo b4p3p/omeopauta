@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Button Margin="5" Background="#FFD8FDD3" Height="18" Width="auto"
-            Padding="5 0">
+            Padding="5 0" PreviewMouseDown="Button_PreviewMouseDown">
         <StackPanel Orientation="Horizontal">
             <!---->
             <Label  Content="{Binding Text}"

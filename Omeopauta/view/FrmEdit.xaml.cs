@@ -80,6 +80,7 @@ namespace Omeopauta.view
         private void btnSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.EditBox.UpdateDocumentBindings();
+            Appunto.SimpleText = new TextRange(EditBox.Document.ContentStart, EditBox.Document.ContentEnd).Text;
             DBCtrl.InsertOrUpdate(Appunto);
             DBCtrl.AddImages(ListImage, Appunto);
             this.Close();

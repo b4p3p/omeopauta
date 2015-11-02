@@ -27,13 +27,13 @@
         <Button Grid.Column="1" Grid.Row="0" Margin="5, 0"
                 PreviewMouseDown="btnDelete_MouseDown" 
                 BorderBrush="#00000000" Background="#00000000">
-            <Image Source="/Omeopauta;component/img/delete.png"></Image>
+            <Image Source="/Omeopauta;component/img/delete.png" Width="25"></Image>
         </Button>
 
         <Button Grid.Column="2" Grid.Row="0" Margin="5, 0" 
                 BorderBrush="#00000000" Background="#00000000"
                 PreviewMouseDown="btnSearch_MouseDown">
-            <Image Source="/Omeopauta;component/img/search.png"></Image>
+            <Image Source="/Omeopauta;component/img/search.png" Width="25"></Image>
         </Button>
     </Grid>
 </UserControl>
